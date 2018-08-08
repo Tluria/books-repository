@@ -1,0 +1,43 @@
+<div class="col-md-6">
+  <div class="book-wrapper">
+    <div class="row">
+      <div class="col-xs-4">
+        <img [src]="book.picture" 
+              [alt]="book.title | titlecase | removeSpecialCharacters">
+      </div>
+      <div class="col-xs-8 info-position">
+        <div class="row">
+          <div class="col-xs-12">
+            <h6>{{book.title | titlecase | removeSpecialCharacters}}</h6>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12">
+              <span class="info">{{book.authors}}</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <span class="info">{{book.publishedDate | date}}</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <span class="info">{{book.id}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-end">
+      <div class="col-xs-12">
+        <span 
+          class="fas fa-edit edit-icon-position"
+          (click)="onClick()"
+          style="cursor: pointer; color: rgb(114, 114, 114);"></span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,168 @@
+<div class="row">
+  <div class="col-md-12">
+    <h3 class="main-title-position">JavaScript Books</h3>
+  </div>
+</div>
+<hr style="width: 80%;">
+<div class="row">
+  <div class="col-md-6">
+    <button 
+      class="btn btn-success btn-position" 
+      type="submit"
+      (click)="onAddNewBook()">Add New Book
+    </button>
+  </div>
+</div>
+
+<!-- Display Books -->
+<div class="row justify-content-center">
+  <app-book *ngFor="let book of books; let i = index" [book]="book" (clicked)="onBookClicked(i)"></app-book>
+</div>
+
+<!-- Edit PopUp modal -->
+<div class="backdrop" [ngStyle]="{'display':display}" *ngIf="!deleteMode"></div>
+<div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':display}" *ngIf="!deleteMode">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content popup">
+      <div class="modal-header">
+        <h4 class="text-left">{{ editMode ? 'Edit Book' : 'Add New Book'}}</h4>
+        <button 
+          type="button" 
+          class="close" 
+          (click)="closeModalDialog()"><span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row justify-content-center">
+          <div class="col-xs-12">
+            <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+              <div class="row" *ngIf="!editMode">
+                <div class="col-xs-12">
+                  <div class="form-group">
+                    <label for="id">Book Id</label>
+                    <input 
+                      type="text"
+                      id="id"
+                      formControlName="id"
+                      class="form-control">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="form-group">
+                    <label for="title">Book Title</label>
+                    <input 
+                      type="text"
+                      id="title"
+                      formControlName="title"
+                      class="form-control"
+                      #title>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="form-group">
+                    <label for="authors">Book Authors</label>
+                    <input 
+                      type="text"
+                      id="authors"
+                      formControlName="authors"
+                      class="form-control">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="form-group">
+                    <label for="publishedDate">Book Published Date</label>
+                    <input 
+                      type="date"
+                      id="publishedDate"
+                      formControlName="publishedDate"
+                      class="form-control">
+                  </div>
+                </div>
+              </div>  
+
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="form-group">
+                    <label for="picture">Image URL</label>
+                    <input 
+                      type="text"
+                      id="picture"
+                      formControlName="picture"
+                      class="form-control"
+                      #picture>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-12">
+                  <button
+                    *ngIf="!editMode"
+                    type="submit" 
+                    class="btn btn-success"
+                    >Add</button>
+                  <button
+                    *ngIf="editMode"
+                    type="button" 
+                    class="btn btn-success"
+                    (click)="onUpdateBook()"
+                    [disabled]="!bookForm.valid">Update</button>
+                  <button
+                    *ngIf="editMode"
+                    type="button" 
+                    class="btn btn-warning"
+                    (click)="onDeleteClicked()"
+                    [disabled]="!bookForm.valid">Delete</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete PopUp modal -->
+<div class="backdrop" [ngStyle]="{'display':display}" *ngIf="deleteMode"></div>
+<div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':display}" *ngIf="deleteMode">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content popup">
+      <div class="modal-header">
+        <h4 class="text-left">Delete Book</h4>
+        <button 
+          type="button" 
+          class="close" 
+          (click)="closeModalDialog()"><span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row justify-content-center">
+          <div class="col-xs-12">
+            Are you sure that you want to delete this book?
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center">
+          <div class="col-xs-12">
+            <button
+              type="button" 
+              class="btn btn-danger"
+              (click)="deleteBook()"
+              [disabled]="!bookForm.valid">OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

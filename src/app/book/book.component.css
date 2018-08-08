@@ -1,0 +1,52 @@
+.book-wrapper {
+  display: block;
+  background-color: white;
+  width: 420px;
+  height: 210px;
+  margin: 30px;
+  margin-top: 80px;
+  border-radius: 5px 5px 5px 5px;
+  transition: all .2s;
+}
+  
+.book-wrapper:hover {
+  box-shadow: 4px 4px 8px #c0c0c04d;
+}
+  
+.book-wrapper img {
+  margin: -27px;
+  margin-left: 39px;
+  width: 130px;
+  height: 200px;
+  box-shadow: 4px 4px 8px #c0c0c04d;
+}
+  
+.info {
+  font-size: 11px;
+  color: rgb(150, 150, 150);
+}
+
+.info-position {
+  margin-left: 62px;
+  margin-top: 24px;
+}
+  
+.edit-icon-position {
+  margin-right: 30px;
+  margin-top: 35px;
+}
+
+h6 {
+  font-size: 12px;  
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .book-wrapper {
+    width: 333px;
+  }
+  
+  h6 {
+    width: 90%;
+  }
+}
