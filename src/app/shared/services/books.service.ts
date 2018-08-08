@@ -9,8 +9,7 @@ export class BooksService {
 
   private URL = 'https://www.googleapis.com/books/v1/volumes?q=javascript';
 
-  constructor(private http: HttpClient) { }
-  
+  constructor(private http: HttpClient) {}
   /*
     Get all the books
   */

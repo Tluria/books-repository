@@ -16,7 +16,7 @@ export class BookComponent implements OnInit {
   }
 
   onClick() {
-    this.clicked.emit('j');
+    this.clicked.emit();
   }
 
 }

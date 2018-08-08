@@ -16,10 +16,10 @@ export class ToasterService {
   }
 
   showWarning() {
-    this.toastr.warning('All fields are required!!', '');
+    this.toastr.warning('Book Deleted', '');
   }
 
   showInfo() {
-    this.toastr.info('Book Updated.');
+    this.toastr.info('Book Updated');
   }
 }

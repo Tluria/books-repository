@@ -3,7 +3,6 @@ import { FormGroup, FormControl, Validators }  from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import * as moment from 'moment';
 
-
 import { Book } from './../shared/models/book.model';
 import { BooksService } from '../shared/services/books.service';
 import { ToasterService } from './../shared/services/toaster.service';
@@ -24,6 +23,7 @@ export class MainComponent implements OnInit {
   deleteMode: boolean;
   isBookExist = false;
   isClosePopUpClicked = false;
+  requiredAlert = false;
 
   constructor(private booksService: BooksService, private route: ActivatedRoute,
               private toastr: ToastsManager, vRef: ViewContainerRef,
@@ -47,26 +47,44 @@ export class MainComponent implements OnInit {
     this.display='none'; 
     this.deleteMode = false;
     this.isClosePopUpClicked = true;
+    this.requiredAlert = false;
+  }
+
+  filterdTitle(title: any) {
+    const words = title.split(' ');
+    let newWords = [];
+
+    for (let char of words) {
+      const c = char.toLowerCase() 
+      newWords.push(c.charAt(0).toUpperCase() + c.slice(1));
+    }
+
+    return newWords.join(' ').replace(/[^\w\s]/gi, '');
   }
 
   onSubmit() {
     if(!this.isFieldsEmpty()) {
-      for(let book of this.books) {
-        if(book.title == this.bookForm.value.title) {
-          this.isBookExist = true;
-          break;
-        }
-      }
+      this.isExist();
       if(!this.isBookExist) {
         this.addBook(this.bookForm.value);
         this.closeModalDialog();
         this.toaster.showSuccess();
       } else {
-        this.isBookExist = false;
-        this.toaster.showError();
+          this.isBookExist = false;
+          this.toaster.showError();
       }
     } else {
-      this.toaster.showWarning();
+      this.requiredAlert = true;
+    }
+  }
+
+  isExist() {
+    for(let book of this.books) {
+      const filterdTitle = this.filterdTitle(book.title);
+      if(filterdTitle == this.bookForm.value.title) {
+        this.isBookExist = true;
+        break;
+      }
     }
   }
 
@@ -94,13 +112,20 @@ export class MainComponent implements OnInit {
 
   deleteBook() {
     this.books.splice(this.id,1);
+    this.toaster.showWarning();
     this.closeModalDialog();
   }
 
   updateBook(index: number, newBook: Book) {
-    this.books[index] = newBook;
-    this.closeModalDialog();
-    this.toaster.showInfo();
+    this.isExist();
+    if(!this.isBookExist) {
+      this.books[index] = newBook;
+      this.closeModalDialog();
+      this.toaster.showInfo();
+    } else {
+        this.isBookExist = false;
+        this.toaster.showError();
+    }
   }
 
   addBook(book: Book) {
