@@ -17,18 +17,20 @@ import { ToasterService } from './shared/services/toaster.service';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { MainComponent } from './main/main.component';
+import { BookComponent } from './book/book.component';
 
 // Pipes
-import { RemoveSpecialCharactersPipe } from './shared/pipes/remove-special-characters.pipe';
-import { BookComponent } from './book/book.component';
+import { FilterTitlePipe } from './shared/pipes/filter-title.pipe';
+import { DeleteBookComponent } from './book/delete-book/delete-book.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     MainComponent,
-    RemoveSpecialCharactersPipe,
-    BookComponent
+    BookComponent,
+    FilterTitlePipe,
+    DeleteBookComponent
   ],
   imports: [
     BrowserModule,

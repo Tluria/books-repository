@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators }  from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import * as moment from 'moment';
 
+import { FilterTitlePipe } from '../shared/pipes/filter-title.pipe';
 import { Book } from './../shared/models/book.model';
 import { BooksService } from '../shared/services/books.service';
 import { ToasterService } from './../shared/services/toaster.service';
@@ -50,18 +51,6 @@ export class MainComponent implements OnInit {
     this.requiredAlert = false;
   }
 
-  filterdTitle(title: any) {
-    const words = title.split(' ');
-    let newWords = [];
-
-    for (let char of words) {
-      const c = char.toLowerCase() 
-      newWords.push(c.charAt(0).toUpperCase() + c.slice(1));
-    }
-
-    return newWords.join(' ').replace(/[^\w\s]/gi, '');
-  }
-
   onSubmit() {
     if(!this.isFieldsEmpty()) {
       this.isExist();
@@ -79,12 +68,21 @@ export class MainComponent implements OnInit {
   }
 
   isExist() {
+    let filteredBookTitlesArray = [];
+    let filteredBookTitleIndex;
+    let bookTitlesArray = [];
+    let bookTitleIndex;
     for(let book of this.books) {
-      const filterdTitle = this.filterdTitle(book.title);
-      if(filterdTitle == this.bookForm.value.title) {
-        this.isBookExist = true;
-        break;
-      }
+      let filterdTitle = new FilterTitlePipe().transform(book.title);
+      filteredBookTitlesArray.push(filterdTitle);
+      bookTitlesArray.push(book.title);
+    }
+    filteredBookTitleIndex = filteredBookTitlesArray
+      .findIndex(bookTitle => bookTitle === this.bookForm.value.title);
+    bookTitleIndex = bookTitlesArray
+      .findIndex(bookTitle => bookTitle === this.bookForm.value.title);
+    if(filteredBookTitleIndex >= 0 || bookTitleIndex >= 0) {
+      this.isBookExist = true;
     }
   }
 
@@ -147,7 +145,8 @@ export class MainComponent implements OnInit {
   }
 
   private initForm() {
-    let bookId = '';
+    let randomBookId = ((Math.random()).toString(36).substr(2,12)).toUpperCase();
+    let bookId = randomBookId;
     let bookTitle = '';
     let bookImg = '';
     let bookAuthors = '';

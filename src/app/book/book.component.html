@@ -3,12 +3,12 @@
     <div class="row">
       <div class="col-xs-4">
         <img [src]="book.picture" 
-              [alt]="book.title | titlecase | removeSpecialCharacters">
+              [alt]="book.title | filterTitle">
       </div>
       <div class="col-xs-8 info-position">
         <div class="row">
           <div class="col-xs-12">
-            <h6>{{book.title | titlecase | removeSpecialCharacters}}</h6>
+            <h6>{{book.title | filterTitle }}</h6>
           </div>
         </div>
 
